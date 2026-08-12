@@ -1,0 +1,24 @@
+<header class="an-nav">
+  <div class="an-row">
+    <a class="an-brand" href="https://asicnetwork.net">
+      <svg class="an-chip" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <g class="an-pins">
+          <path d="M10 5V2M16 5V2M22 5V2M10 27v3M16 27v3M22 27v3M5 10H2M5 16H2M5 22H2M27 10h3M27 16h3M27 22h3"/>
+        </g>
+        <rect class="an-body" x="5" y="5" width="22" height="22" rx="4"/>
+        <rect class="an-core" x="11" y="11" width="10" height="10" rx="2"/>
+      </svg>
+      <span>
+        <span class="an-wm">ASIC NETWORK</span>
+        <span class="an-sub">{{ book_title }}</span>
+      </span>
+    </a>
+    <nav class="an-links">
+      <a href="https://asicnetwork.net">Home</a>
+      {{#if git_repository_url}}
+      <a href="{{ git_repository_url }}" target="_blank" rel="noopener">GitHub</a>
+      {{/if}}
+    </nav>
+  </div>
+  <div class="an-scrollbar"><span id="an-progress"></span></div>
+</header>
