@@ -14,12 +14,35 @@ pinned by any number of unrelated books:
 
 - `head.hbs` — extra `<head>` content (fonts, favicon)
 - `header.hbs` — the brand bar, spliced in above mdBook's own menu bar;
-  reads `{{ book_title }}` and `{{ git_repository_url }}`, hardcodes nothing
-- `theme.css` — full reskin, loaded via `[output.html] additional-css`
+  reads `{{ book_title }}` and `{{ git_repository_url }}`, hardcodes nothing.
+  The nav logo is inlined as a data URI (mdBook only auto-copies theme
+  files it recognizes by name, so an arbitrary image asset — currently
+  `ASICclubLogo.png` — has to travel as bytes in the HTML, not as a
+  linked file); swap it for a different mark by re-running the same
+  trim/resize/base64 steps against a new source image.
+- `theme.css` — full reskin, loaded via `[output.html] additional-css`.
+  Includes a `.hljs-*` syntax-highlighting palette that overrides
+  whichever stock highlight.css/tomorrow-night.css/ayu-highlight.css
+  mdBook has active, so code blocks look the same regardless of theme.
 - `theme.js` — right-hand "on this page" TOC, footer, code-block
-  caption bars, scroll progress bar; loaded via `[output.html] additional-js`
-- `favicon.svg` — the chip + arch mark; swap it for a different one to
-  rebrand without touching CSS
+  caption bars (copy button relocated into the caption bar), pager
+  labels, scroll progress bar; loaded via `[output.html] additional-js`
+- `favicon.svg` — the chip + arch mark used for the browser tab icon
+  (separate from the nav logo above)
+- `highlight.js` — overrides mdBook's bundled highlight.js (same
+  approach as favicon.svg: a file named exactly `highlight.js` in this
+  directory replaces the built-in one). This is a custom build of
+  highlight.js **10.1.1** (matching mdBook 0.5's bundled version, so
+  the `.hljs-*` class names in `theme.css` still line up) with the same
+  language set mdBook ships plus `verilog` (aliases `v`, `sv`, `svh`,
+  `systemverilog` — one grammar covers both Verilog and SystemVerilog)
+  and `vhdl`. To add another language or rebuild after an mdBook
+  version bump: `npm pack highlight.js@10.1.1`, extract it, list the
+  languages to register in a small entry file (use explicit
+  `require('./lib/languages/<name>')` calls, not a templated/dynamic
+  path — a bundler can't tree-shake a dynamic `require` and will pull
+  in all ~190 languages), then `esbuild entry.js --bundle --format=iife
+  --outfile=highlight.js --minify`.
 
 ## Using this in a book
 

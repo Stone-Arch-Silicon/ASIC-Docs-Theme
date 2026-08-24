@@ -161,16 +161,38 @@ input[type="checkbox"]{ accent-color: var(--gold); }
 #mdbook-content blockquote{border-radius:0 12px 12px 0}
 
 /* ---------- code blocks: caption bar injected by theme.js ---------- */
-.dt-codeblock{margin:1.5em 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
-.dt-codeblock figcaption{display:flex;align-items:center;gap:9px;padding:9px 14px;background:var(--soft);border-bottom:1px solid var(--line)}
+.dt-codeblock{position:relative;margin:1.5em 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.dt-codeblock figcaption{display:flex;align-items:center;gap:9px;padding:9px 52px 9px 14px;background:var(--soft);border-bottom:1px solid var(--line)}
 .dt-codeblock .dt-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;animation:dt-dotpulse 2.4s ease-in-out infinite}
 .dt-codeblock .dt-lang{font-family:var(--mono);font-size:1.05rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2)}
-.dt-codeblock pre{position:relative;margin:0;border:0;border-radius:0;background:#150D10}
+.dt-codeblock pre{margin:0;border:0;border-radius:0;background:#150D10}
 .dt-codeblock pre code{font-size:.86em;line-height:1.7}
-/* mdBook's copy button is normally hover-to-reveal on the <pre> itself;
-   make it always visible since our caption bar sits above, not over, the code */
-.dt-codeblock pre > .buttons{visibility:visible;opacity:1;top:8px;right:8px}
+/* mdBook's copy button is normally hover-to-reveal, absolutely positioned
+   relative to <pre> itself; make it always visible and, since <pre> no
+   longer establishes its own positioning context here, let it place
+   relative to the whole .dt-codeblock figure so it sits in the caption
+   bar instead of floating over the code -- same icon/button, just moved */
+.dt-codeblock pre > .buttons{visibility:visible;opacity:1;top:6px;right:10px}
+.dt-codeblock pre > .buttons button{font-size:15px;padding:4px 7px 3px}
 @keyframes dt-dotpulse{0%,100%{box-shadow:0 0 0 3px rgba(255,204,51,.14)}50%{box-shadow:0 0 0 7px rgba(255,204,51,.03)}}
+
+/* ---------- syntax highlighting ----------
+   overrides highlight.css/tomorrow-night.css/ayu-highlight.css (loaded
+   earlier in <head>, so this wins by source order) with one palette
+   tuned to the maroon/gold theme, used for every fenced code block
+   regardless of which mdBook color theme happens to be active. */
+.hljs{background:transparent !important;color:var(--text)}
+.hljs-comment,.hljs-quote{color:var(--muted);font-style:italic}
+.hljs-keyword,.hljs-selector-tag,.hljs-doctag,.hljs-subst,.hljs-operator{color:#D98A96}
+.hljs-string,.hljs-attr,.hljs-regexp,.hljs-addition,.hljs-meta-string{color:var(--gold-2)}
+.hljs-number,.hljs-literal{color:var(--ink)}
+.hljs-built_in,.hljs-symbol,.hljs-bullet,.hljs-link{color:var(--gold)}
+.hljs-title,.hljs-section,.hljs-name,.hljs-selector-id,.hljs-selector-class{color:var(--ink);font-weight:600}
+.hljs-variable,.hljs-template-variable,.hljs-type,.hljs-params{color:var(--text)}
+.hljs-meta{color:var(--muted)}
+.hljs-deletion{color:var(--maroon-lit)}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:700}
 
 /* ---------- tables ---------- */
 .table-wrapper{border:1px solid var(--line);border-radius:12px;overflow:hidden}
