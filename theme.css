@@ -160,8 +160,8 @@ input[type="checkbox"]{ accent-color: var(--gold); }
 #mdbook-content li{line-height:1.72;font-size:1rem}
 #mdbook-content li::marker{color:var(--gold-2);font-weight:600}
 #mdbook-content strong{color:var(--ink)}
-#mdbook-content a{border-bottom:1px solid var(--trace);transition:border-color .14s,color .14s}
-#mdbook-content a:hover{border-bottom-color:var(--gold)}
+#mdbook-content a:not(.header){border-bottom:1px solid var(--trace);transition:border-color .14s,color .14s}
+#mdbook-content a:not(.header):hover{border-bottom-color:var(--gold)}
 #mdbook-content blockquote{border-radius:0 12px 12px 0}
 
 /* ---------- code blocks: caption bar injected by theme.js ---------- */
@@ -197,15 +197,18 @@ input[type="checkbox"]{ accent-color: var(--gold); }
 }
 
 /* ---------- prev/next chapter pager, restyled as cards ---------- */
-.nav-wide-wrapper{max-width:1200px;margin:36px auto 0;padding:0 clamp(18px,4vw,32px)}
-.nav-chapters{position:static;display:flex;flex-direction:column;gap:6px;width:calc(50% - 8px);height:auto;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--panel);color:var(--text);transition:transform .16s,border-color .16s,box-shadow .16s}
+.nav-wide-wrapper{display:flex;justify-content:space-between;gap:16px;max-width:1200px;margin:36px auto 0;padding:0 clamp(18px,4vw,32px)}
+.nav-chapters{position:static;display:flex;align-items:center;gap:12px;width:calc(50% - 8px);height:auto;border:1px solid var(--line);border-radius:12px;padding:14px 18px;background:var(--panel);color:var(--text);transition:transform .16s,border-color .16s,box-shadow .16s}
 .nav-chapters:hover{transform:translateY(-2px);border-color:var(--trace);box-shadow:0 14px 30px -20px rgba(255,204,51,.35);background:var(--panel)}
-.nav-chapters.next{margin-inline-start:auto;text-align:right;align-items:flex-end}
-.nav-chapters .fa-svg{color:var(--gold-2)}
+.nav-chapters.next{margin-inline-start:auto;flex-direction:row-reverse}
+.nav-chapters .fa-svg{color:var(--gold-2);flex:none}
+.dt-pg{display:flex;flex-direction:column;gap:4px;min-width:0;align-items:flex-start;text-align:left}
+.nav-chapters.next .dt-pg{align-items:flex-end;text-align:right}
+.dt-pg-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+.dt-pg b{font-family:var(--display);color:var(--ink);font-weight:600;font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:880px){
   .nav-wide-wrapper{flex-direction:column}
   .nav-chapters{width:100%}
-  .nav-chapters.next{align-items:flex-start;text-align:left}
 }
 
 /* ---------- injected footer (theme/theme.js) ---------- */

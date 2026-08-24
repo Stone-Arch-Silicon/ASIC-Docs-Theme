@@ -102,13 +102,50 @@
     });
   }
 
+  /* ---------- prev/next pager cards ----------
+     mdBook's own .nav-chapters links only contain an icon; pull the
+     matching chapter title out of the sidebar (by comparing the link's
+     final path segment, since path_to_root prefixes can differ) so the
+     wide-screen pager reads as a labeled card instead of a bare arrow. */
+  function initPager() {
+    var links = document.querySelectorAll(".nav-wide-wrapper .nav-chapters");
+    if (!links.length) return;
+    function basename(href) {
+      try {
+        return new URL(href, location.href).pathname.split("/").pop();
+      } catch (e) {
+        return href;
+      }
+    }
+    links.forEach(function (a) {
+      if (a.querySelector(".dt-pg")) return;
+      var isNext = a.classList.contains("next");
+      var file = basename(a.getAttribute("href"));
+      var match = Array.prototype.find.call(
+        document.querySelectorAll("#mdbook-sidebar .chapter a"),
+        function (l) {
+          return basename(l.getAttribute("href")) === file;
+        }
+      );
+      var title = match ? match.textContent.trim() : "";
+      var pg = document.createElement("span");
+      pg.className = "dt-pg";
+      pg.innerHTML =
+        '<span class="dt-pg-label">' + (isNext ? "Next" : "Previous") + "</span>" +
+        (title ? "<b>" + title + "</b>" : "");
+      a.appendChild(pg);
+    });
+  }
+
   /* ---------- footer ----------
      reuses the wordmark and repo link already rendered by
      theme/header.hbs so nothing here has to know the book's title or
-     repo URL directly. */
+     repo URL directly. Appended after .nav-wide-wrapper (a sibling of
+     .page, not a child of it) so the reading order stays content,
+     pager, footer instead of footer, pager. */
   function initFooter() {
     var page = document.querySelector(".page");
-    if (!page || page.querySelector(".dt-footer")) return;
+    if (!page || !page.parentNode || page.parentNode.querySelector(".dt-footer")) return;
     var wm = document.querySelector(".dt-brand .dt-wm");
     var repoLink = document.querySelector('.dt-links a[target="_blank"]');
     var footer = document.createElement("footer");
@@ -121,12 +158,13 @@
         ? '<a href="' + repoLink.getAttribute("href") + '" target="_blank" rel="noopener">Contribute on GitHub ↗</a>'
         : "") +
       "</div>";
-    page.appendChild(footer);
+    page.parentNode.appendChild(footer);
   }
 
   ready(function () {
     initProgress();
     initToc();
+    initPager();
     initCodeCaptions();
     initFooter();
   });
