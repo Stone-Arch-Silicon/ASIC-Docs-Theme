@@ -125,6 +125,8 @@ input[type="checkbox"]{ accent-color: var(--gold); }
 .chapter li a{border-radius:8px;padding:7px 10px}
 .chapter li a:hover{background:var(--bg-alt)}
 .chapter-item strong{color:var(--gold);font-weight:600;margin-right:6px}
+.chapter-fold-toggle{color:var(--muted);transition:color .14s}
+.chapter-link-wrapper:hover .chapter-fold-toggle{color:var(--gold)}
 
 /* ---------- headings: mdBook wraps the whole heading text in
    <a class="header">; make it read as plain text, with a "#"

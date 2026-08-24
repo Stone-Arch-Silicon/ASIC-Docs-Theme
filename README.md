@@ -34,15 +34,29 @@ pinned by any number of unrelated books:
   directory replaces the built-in one). This is a custom build of
   highlight.js **10.1.1** (matching mdBook 0.5's bundled version, so
   the `.hljs-*` class names in `theme.css` still line up) with the same
-  language set mdBook ships plus `verilog` (aliases `v`, `sv`, `svh`,
-  `systemverilog` — one grammar covers both Verilog and SystemVerilog)
-  and `vhdl`. To add another language or rebuild after an mdBook
-  version bump: `npm pack highlight.js@10.1.1`, extract it, list the
-  languages to register in a small entry file (use explicit
-  `require('./lib/languages/<name>')` calls, not a templated/dynamic
-  path — a bundler can't tree-shake a dynamic `require` and will pull
-  in all ~190 languages), then `esbuild entry.js --bundle --format=iife
-  --outfile=highlight.js --minify`.
+  language set mdBook ships, plus `vhdl` and a `verilog` grammar
+  (aliases `v`, `sv`, `svh`, `systemverilog` — one grammar covers both
+  Verilog and SystemVerilog) patched beyond the stock upstream one: it
+  also titles the declared name after `module`/`class`/`interface`/
+  `program`/`package`/`primitive`/`checker`/`covergroup` (see the
+  `beginKeywords` + `UNDERSCORE_TITLE_MODE` block — `task`/`function`
+  are deliberately excluded, since an optional return type between the
+  keyword and the name makes the real name unreliable to regex-match)
+  and colors `(* ... *)` attribute instances as `meta`, same as the
+  existing `` ` `` preprocessor-directive handling.
+  `highlight-src/verilog.js` is the patched source (stock upstream file
+  plus those two blocks) — rebuild from it, not from a fresh
+  `npm pack`, or the patch is lost. To rebuild (also needed after an
+  mdBook version bump, to match its highlight.js version):
+  1. `npm pack highlight.js@10.1.1 && tar xzf highlight.js-10.1.1.tgz`
+  2. Copy `highlight-src/verilog.js` over the extracted
+     `package/lib/languages/verilog.js`
+  3. Write a small entry file that `require()`s `package/lib/core` and
+     every language to bundle, each with an **explicit, literal**
+     `require('./package/lib/languages/<name>')` call — a templated or
+     looped path defeats the bundler's static analysis and pulls in all
+     ~190 languages (a 900KB+ bundle instead of ~140KB)
+  4. `esbuild entry.js --bundle --format=iife --outfile=highlight.js --minify`
 
 ## Using this in a book
 
