@@ -1,24 +1,23 @@
-<header class="an-nav">
-  <div class="an-row">
-    <a class="an-brand" href="https://asicnetwork.net">
-      <svg class="an-chip" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
-        <g class="an-pins">
-          <path d="M10 5V2M16 5V2M22 5V2M10 27v3M16 27v3M22 27v3M5 10H2M5 16H2M5 22H2M27 10h3M27 16h3M27 22h3"/>
-        </g>
-        <rect class="an-body" x="5" y="5" width="22" height="22" rx="4"/>
-        <rect class="an-core" x="11" y="11" width="10" height="10" rx="2"/>
+<header class="dt-nav">
+  <div class="dt-row">
+    <a class="dt-brand" href="{{ path_to_root }}index.html">
+      <svg class="dt-chip" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <rect class="dt-die" x="10" y="4" width="12" height="10" rx="2"/>
+        <rect class="dt-core" x="14" y="7" width="4" height="4" rx="1"/>
+        <path class="dt-pins" d="M13 14v3M16 14v3M19 14v3"/>
+        <path class="dt-deck" d="M2 17h28"/>
+        <path class="dt-arch" d="M5 29v-7a3.5 3.5 0 0 1 7 0v7M12 29v-7a3.5 3.5 0 0 1 7 0v7M19 29v-7a3.5 3.5 0 0 1 7 0v7"/>
       </svg>
       <span>
-        <span class="an-wm">ASIC NETWORK</span>
-        <span class="an-sub">{{ book_title }}</span>
+        <span class="dt-wm">{{ book_title }}</span>
+        <span class="dt-sub">docs</span>
       </span>
     </a>
-    <nav class="an-links">
-      <a href="https://asicnetwork.net">Home</a>
-      {{#if git_repository_url}}
+    {{#if git_repository_url}}
+    <nav class="dt-links">
       <a href="{{ git_repository_url }}" target="_blank" rel="noopener">GitHub</a>
-      {{/if}}
     </nav>
+    {{/if}}
   </div>
-  <div class="an-scrollbar"><span id="an-progress"></span></div>
+  <div class="dt-scrollbar"><span id="dt-progress"></span></div>
 </header>

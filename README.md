@@ -1,15 +1,25 @@
-# ASIC Network docs theme
+# docs theme
 
-The shared visual layer for every ASIC Network mdBook (tutorial-template,
-analog-tutorials, digital-tutorials, ...). It's layered on top of mdBook's
+A shared visual layer for any mdBook. It's layered on top of mdBook's
 default theme via sanctioned override points, not a fork of mdBook's own
-`index.hbs` — this is what keeps it small and upgrade-safe:
+`index.hbs` — this is what keeps it small and upgrade-safe. Maroon + gold,
+dark, with a twin-arch motif as the signature detail; every element is
+CSS-variable driven so a fork can re-theme by editing `theme.css`'s
+`:root` block alone.
+
+Nothing in this theme names a specific book, club, or organization — the
+brand wordmark and repo link come from the mounting book's own `book.toml`
+(`book_title`, `git_repository_url`), so the same theme commit can be
+pinned by any number of unrelated books:
 
 - `head.hbs` — extra `<head>` content (fonts, favicon)
-- `header.hbs` — the ASIC Network brand bar, spliced in above mdBook's own menu bar
-- `asic-network.css` — full reskin, loaded via `[output.html] additional-css`
-- `asic-network.js` — right-hand "on this page" TOC, footer, code-block
+- `header.hbs` — the brand bar, spliced in above mdBook's own menu bar;
+  reads `{{ book_title }}` and `{{ git_repository_url }}`, hardcodes nothing
+- `theme.css` — full reskin, loaded via `[output.html] additional-css`
+- `theme.js` — right-hand "on this page" TOC, footer, code-block
   caption bars, scroll progress bar; loaded via `[output.html] additional-js`
+- `favicon.svg` — the chip + arch mark; swap it for a different one to
+  rebrand without touching CSS
 
 ## Using this in a book
 
@@ -33,5 +43,5 @@ git commit -m "bump docs theme"
 ```
 
 `additional-css`/`additional-js` paths in `book.toml` are resolved relative
-to the *book root*, not the theme directory, so they stay `theme/asic-network.css`
-/ `theme/asic-network.js` regardless of where this submodule is mounted.
+to the *book root*, not the theme directory, so they stay `theme/theme.css`
+/ `theme/theme.js` regardless of where this submodule is mounted.

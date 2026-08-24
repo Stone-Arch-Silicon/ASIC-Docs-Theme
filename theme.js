@@ -8,7 +8,7 @@
 
   /* ---------- scroll progress bar ---------- */
   function initProgress() {
-    var bar = document.getElementById("an-progress");
+    var bar = document.getElementById("dt-progress");
     if (!bar) return;
     function upd() {
       var h = document.documentElement;
@@ -30,23 +30,23 @@
     var headings = Array.prototype.slice.call(main.querySelectorAll("h2, h3"));
 
     var layout = document.createElement("div");
-    layout.className = "an-layout";
+    layout.className = "dt-layout";
     content.parentNode.insertBefore(layout, content);
     layout.appendChild(content);
 
     if (!headings.length) return;
 
     var toc = document.createElement("aside");
-    toc.className = "an-toc";
-    toc.id = "an-toc";
-    toc.innerHTML = '<h3>On this page</h3><nav id="an-toc-nav"></nav>';
+    toc.className = "dt-toc";
+    toc.id = "dt-toc";
+    toc.innerHTML = '<h3>On this page</h3><nav id="dt-toc-nav"></nav>';
     layout.appendChild(toc);
 
-    var nav = toc.querySelector("#an-toc-nav");
+    var nav = toc.querySelector("#dt-toc-nav");
     nav.innerHTML = headings
       .map(function (h) {
         return (
-          '<a class="an-t-' + h.tagName.toLowerCase() + '" href="#' + h.id + '">' +
+          '<a class="dt-t-' + h.tagName.toLowerCase() + '" href="#' + h.id + '">' +
           (h.textContent || "").trim() +
           "</a>"
         );
@@ -82,7 +82,7 @@
   function initCodeCaptions() {
     var blocks = document.querySelectorAll("#mdbook-content pre");
     blocks.forEach(function (pre) {
-      if (pre.closest(".an-codeblock")) return;
+      if (pre.closest(".dt-codeblock")) return;
       var codeEl = pre.querySelector("code[class*='language-']");
       var lang = "code";
       if (codeEl) {
@@ -91,10 +91,10 @@
       }
 
       var figure = document.createElement("figure");
-      figure.className = "an-codeblock";
+      figure.className = "dt-codeblock";
       var figcaption = document.createElement("figcaption");
       figcaption.innerHTML =
-        '<span class="an-dot"></span><span class="an-lang">' + lang + "</span>";
+        '<span class="dt-dot"></span><span class="dt-lang">' + lang + "</span>";
 
       pre.parentNode.insertBefore(figure, pre);
       figure.appendChild(figcaption);
@@ -102,20 +102,23 @@
     });
   }
 
-  /* ---------- footer ---------- */
+  /* ---------- footer ----------
+     reuses the wordmark and repo link already rendered by
+     theme/header.hbs so nothing here has to know the book's title or
+     repo URL directly. */
   function initFooter() {
     var page = document.querySelector(".page");
-    if (!page || page.querySelector(".an-footer")) return;
+    if (!page || page.querySelector(".dt-footer")) return;
+    var wm = document.querySelector(".dt-brand .dt-wm");
+    var repoLink = document.querySelector('.dt-links a[target="_blank"]');
     var footer = document.createElement("footer");
-    footer.className = "an-footer";
-    var repoLink = document.querySelector('.an-links a[target="_blank"]');
-    var repo = repoLink ? repoLink.getAttribute("href") : "";
+    footer.className = "dt-footer";
     footer.innerHTML =
-      '<div class="an-row">' +
-      '<span class="an-wm">ASIC NETWORK</span>' +
-      '<span class="an-tag">// silicon is a team sport</span>' +
-      (repo
-        ? '<a href="' + repo + '" target="_blank" rel="noopener">Contribute on GitHub ↗</a>'
+      '<div class="dt-row">' +
+      (wm ? '<span class="dt-wm">' + wm.textContent + "</span>" : "") +
+      '<span class="dt-tag">// built with mdBook</span>' +
+      (repoLink
+        ? '<a href="' + repoLink.getAttribute("href") + '" target="_blank" rel="noopener">Contribute on GitHub ↗</a>'
         : "") +
       "</div>";
     page.appendChild(footer);
